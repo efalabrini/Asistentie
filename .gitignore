@@ -482,3 +482,8 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+#CSV example files
+Alumnos.csv
+participants.csv
+Asistencias.csv

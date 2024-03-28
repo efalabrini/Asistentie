@@ -36,7 +36,7 @@ for (int i = 1; i < parti.Count(); i++)
     }
 }
 
-Console.WriteLine($"{participantes.Count()} participantes registrados (Cant de registros en el reporte de Zoom)");
+Console.WriteLine($"{participantes.Count()} participantes registrados (Registros en participants.csv)");
 
 //Elimino los participantes que tienen un duración menor a minDurationParaAsistencia
 var participantesAeliminar = new List<Participante>();
@@ -53,9 +53,9 @@ foreach(Participante p in participantesAeliminar)
     participantes.Remove(p);
 }
 
-Console.WriteLine($"{participantes.Count()} participantes presentes (registros que cumplen con Duration > {minDurationParaAsistencia})");
+Console.WriteLine($"{participantes.Count()} participantes presentes (Registros de participants.csv con Duration > {minDurationParaAsistencia})");
 
-Console.WriteLine($"{erroresLecturaParticipants.Count()} errores de lectura");
+Console.WriteLine($"{erroresLecturaParticipants.Count()} errores de lectura (Registros de participants.csv que no se pudieron parsear)");
 foreach(string s in erroresLecturaParticipants)
 {
     Console.WriteLine(s);
@@ -108,7 +108,7 @@ foreach(Asistencia a in asistencias)
     }
 }
 
-Console.WriteLine($"{participantesMatcheados.Count()} participantes matcheados");
+Console.WriteLine($"{participantesMatcheados.Count()} participantes matcheados (Registros de participants.csv con Duration > {minDurationParaAsistencia} que se pudieron matchear con un registro de Alumnos.csv");
 
 /*
 foreach (Asistencia asistencia in asistencias)
@@ -126,7 +126,7 @@ foreach (Participante p in participantesMatcheados)
 Console.WriteLine("");
 
 //Muestro los participantes no matcheados
-Console.WriteLine($"{participantes.Count()} participantes NO matcheados (registros que existen en el reporte de Zoom pero no se pudieron matchear con un registro de Alumnos)");
+Console.WriteLine($"{participantes.Count()} participantes NO matcheados (registros que existen en participants.csv con Duration > {minDurationParaAsistencia} que no se pudieron matchear con un registro de Alumnos.csv)");
 Console.WriteLine("");
 Console.WriteLine("Nombre (tiempo conectado)");
 

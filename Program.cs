@@ -2,7 +2,7 @@
 using Asistentie;
 
 //Cantidad de minutos mínimos que se debe haber conectado un alumno para considerarlo presente.
-const int minDurationParaAsistencia = 30;
+const int minDurationParaAsistencia = 60;
 
 var asistencias = new List<Asistentie.Asistencia>();
 var participantes = new List<Participante>();
@@ -36,7 +36,7 @@ for (int i = 1; i < parti.Count(); i++)
     }
 }
 
-Console.WriteLine($"{participantes.Count()} participantes registrados");
+Console.WriteLine($"{participantes.Count()} participantes registrados (Cant de registros en el reporte de Zoom)");
 
 //Elimino los participantes que tienen un duración menor a minDurationParaAsistencia
 var participantesAeliminar = new List<Participante>();
@@ -53,7 +53,7 @@ foreach(Participante p in participantesAeliminar)
     participantes.Remove(p);
 }
 
-Console.WriteLine($"{participantes.Count()} participantes presentes (Duration > {minDurationParaAsistencia})");
+Console.WriteLine($"{participantes.Count()} participantes presentes (registros que cumplen con Duration > {minDurationParaAsistencia})");
 
 Console.WriteLine($"{erroresLecturaParticipants.Count()} errores de lectura");
 foreach(string s in erroresLecturaParticipants)
@@ -90,9 +90,13 @@ foreach(Asistencia a in asistencias)
         //Valido si separando el nombre del participante por un espacio, los dos primeros
         // string están contenido en el nombre del alumno, por separado.
         var nombresPar = nombreParticipante.Split(" ");
-        if (nombreAlumno.IndexOf(nombresPar[0]) != -1 && nombreAlumno.IndexOf(nombresPar[1]) != -1)
+        if (nombresPar.Length > 1)
         {
-            esMatch = true;
+
+            if (nombreAlumno.IndexOf(nombresPar[0]) != -1 && nombreAlumno.IndexOf(nombresPar[1]) != -1)
+            {
+                esMatch = true;
+            }
         }
 
         if (esMatch)
@@ -113,17 +117,22 @@ foreach (Asistencia asistencia in asistencias)
 }
 */
 
-Console.WriteLine("-------------------------------");
-
 //Elimino los participantes matcheados
-foreach(Participante p in participantesMatcheados)
+foreach (Participante p in participantesMatcheados)
 {
     participantes.Remove(p);
 }
 
+Console.WriteLine("");
+
+//Muestro los participantes no matcheados
+Console.WriteLine($"{participantes.Count()} participantes NO matcheados (registros que existen en el reporte de Zoom pero no se pudieron matchear con un registro de Alumnos)");
+Console.WriteLine("");
+Console.WriteLine("Nombre (tiempo conectado)");
+
 foreach (Participante participante in participantes)
 {
-    Console.WriteLine(participante.Nombre);
+    Console.WriteLine($"{participante.Nombre} ({participante.Duration})");
 }
 
 //Escribo el csv de asistencias
